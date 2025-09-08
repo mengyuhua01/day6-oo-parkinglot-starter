@@ -1,11 +1,11 @@
 package com.afs.parkinglot;
 
+import java.util.Comparator;
+
 public class SmartParkingBoy extends StandardParkingBoy{
     @Override
     public Ticket park(Car car) {
-        parkingLots.sort((o1, o2) -> {
-            return o2.getAvailableSpaces() - o1.getAvailableSpaces();
-        });
+        parkingLots.sort(Comparator.comparingInt(ParkingLot::getAvailableSpaces).reversed());
         return super.park(car);
     }
 }

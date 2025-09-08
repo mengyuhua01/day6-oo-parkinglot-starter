@@ -4,6 +4,7 @@ import com.afs.exception.InvalidParkingTicketException;
 import com.afs.exception.ParkingLotFullException;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class ParkingLot {
     private final int capacity;
@@ -22,6 +23,14 @@ public class ParkingLot {
     }
 
     public Ticket park(Car car) {
+        if (car == null) {
+            throw new IllegalArgumentException("Car must not be null.");
+        }
+        for (Map.Entry<Ticket, Car> entry : parkingMap.entrySet()) {
+            if (car.equals(entry.getValue())) {
+                return entry.getKey();
+            }
+        }
         if(isFull()){
             throw new ParkingLotFullException("No available position.");
         }
