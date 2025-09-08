@@ -1,5 +1,6 @@
 package com.afs.parkinglot;
 
+import com.afs.exception.InvalidParkingTicketException;
 import com.afs.exception.ParkingLotFullException;
 
 import java.util.HashSet;
@@ -26,14 +27,17 @@ public class StandardParkingBoy {
         throw new ParkingLotFullException("All parkingLots are full.");
     }
     public Car fetch(Ticket ticket) {
+        if (ticket.isUsed()){
+            throw new InvalidParkingTicketException("Unrecognized parking ticket.");
+        }
         for (ParkingLot parkingLot : parkingLots) {
             try {
                 return parkingLot.fetch(ticket);
-            } catch (Exception e) {
-                //ignore
+            } catch (InvalidParkingTicketException e) {
+                continue;
             }
         }
-        throw new IllegalArgumentException("Car not found in any parking lot.");
+        throw new InvalidParkingTicketException("Unrecognized parking ticket.");
     }
 
 }
