@@ -1,7 +1,5 @@
 package com.afs.parkinglot;
 
-import java.util.TreeSet;
-
 public class SuperParkingBoy extends StandardParkingBoy{
     @Override
     public Ticket park(Car car) {

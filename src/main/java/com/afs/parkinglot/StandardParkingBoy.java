@@ -4,9 +4,7 @@ import com.afs.exception.InvalidParkingTicketException;
 import com.afs.exception.ParkingLotFullException;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 
 public class StandardParkingBoy {
