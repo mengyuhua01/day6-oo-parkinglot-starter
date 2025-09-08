@@ -12,9 +12,6 @@ public class StandardParkingBoy {
     public StandardParkingBoy(){
         this.parkingLots = new ArrayList<>();
     }
-    public StandardParkingBoy(List<ParkingLot> parkingLots) {
-        this.parkingLots = parkingLots;
-    }
     public void addParkingLot(ParkingLot parkingLot) {
         this.parkingLots.add(parkingLot);
     }
