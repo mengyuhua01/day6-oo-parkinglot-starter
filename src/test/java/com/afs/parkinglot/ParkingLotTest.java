@@ -51,7 +51,7 @@ public class ParkingLotTest {
         //given
         ParkingLot parkingLot = new ParkingLot(10);
         Car car = new Car();
-        Ticket ticket = parkingLot.park(car);
+        parkingLot.park(car);
         Ticket fakeTicket = new Ticket();
         //when
         InvalidParkingTicketException exception = assertThrows(InvalidParkingTicketException.class, () -> parkingLot.fetch(fakeTicket));
@@ -152,13 +152,45 @@ public class ParkingLotTest {
         StandardParkingBoy standardParkingBoy = new StandardParkingBoy();
         standardParkingBoy.addParkingLot(parkingLot);
         Car car = new Car();
-        Ticket ticket = standardParkingBoy.park(car);
+        standardParkingBoy.park(car);
         Ticket fakeTicket = new Ticket();
         //when
         InvalidParkingTicketException exception = assertThrows(InvalidParkingTicketException.class, () -> standardParkingBoy.fetch(fakeTicket));
         //then
         assertEquals("Unrecognized parking ticket.", exception.getMessage());
     }
-
-
+    @Test
+    void should_park_in_parking_lot_with_most_available_positions() {
+        // Given
+        ParkingLot parkingLot1 = new ParkingLot(6); // 容量10
+        ParkingLot parkingLot2 = new ParkingLot(5);  // 容量5
+        SmartParkingBoy smartParkingBoy = new SmartParkingBoy();
+        smartParkingBoy.addParkingLot(parkingLot1);
+        smartParkingBoy.addParkingLot(parkingLot2);
+        smartParkingBoy.park(new Car());
+        Car car = new Car();
+        // When
+        Ticket ticket = smartParkingBoy.park(car);
+        Car car1 = parkingLot1.fetch(ticket);
+        // Then
+        assertEquals(car, car1);
+    }
+    @Test
+    void should_park_in_parking_lot_with_highest_available_position_rate() {
+        // Given
+        ParkingLot parkingLot1 = new ParkingLot(10); // 容量10
+        ParkingLot parkingLot2 = new ParkingLot(5);  // 容量5
+        SuperParkingBoy superParkingBoy = new SuperParkingBoy();
+        superParkingBoy.addParkingLot(parkingLot1);
+        superParkingBoy.addParkingLot(parkingLot2);
+        for (int i = 0; i < 5; i++) {
+            parkingLot1.park(new Car());
+        }
+        Car carToPark = new Car();
+        // When
+        Ticket ticket = superParkingBoy.park(carToPark);
+        Car fetchCar = parkingLot2.fetch(ticket);
+        // Then
+        assertEquals(carToPark, fetchCar);
+    }
 }

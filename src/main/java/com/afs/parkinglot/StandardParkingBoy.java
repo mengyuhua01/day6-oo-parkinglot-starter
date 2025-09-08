@@ -3,16 +3,18 @@ package com.afs.parkinglot;
 import com.afs.exception.InvalidParkingTicketException;
 import com.afs.exception.ParkingLotFullException;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 
 public class StandardParkingBoy {
-    protected final Set<ParkingLot> parkingLots;
+    protected final List<ParkingLot> parkingLots;
     public StandardParkingBoy(){
-        this.parkingLots = new HashSet<>();
+        this.parkingLots = new ArrayList<>();
     }
-    public StandardParkingBoy(Set<ParkingLot> parkingLots) {
+    public StandardParkingBoy(List<ParkingLot> parkingLots) {
         this.parkingLots = parkingLots;
     }
     public void addParkingLot(ParkingLot parkingLot) {
