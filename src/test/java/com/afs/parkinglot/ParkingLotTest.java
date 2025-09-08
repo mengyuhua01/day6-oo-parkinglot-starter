@@ -1,5 +1,6 @@
 package com.afs.parkinglot;
 
+import com.afs.exception.InvalidParkingTicketException;
 import com.afs.exception.ParkingLotFullException;
 import org.junit.jupiter.api.Test;
 
@@ -22,5 +23,56 @@ public class ParkingLotTest {
         ParkingLotFullException parkingLotFullException = assertThrows(ParkingLotFullException.class, () -> parkingLot.park(new Car()));
         assertEquals("No available position.",parkingLotFullException.getMessage());
     }
+    @Test
+    public void should_throw_InvalidParkingTicketException_when_fetch_given_a_used_parking_ticket() {
+        //given
+        ParkingLot parkingLot = new ParkingLot(10);
+        Car car = new Car();
+        Ticket ticket = parkingLot.park(car);
+        //when
+        parkingLot.fetch(ticket);
+        //then
+        InvalidParkingTicketException exception = assertThrows(InvalidParkingTicketException.class, () -> parkingLot.fetch(ticket));
+        assertEquals("Unrecognized parking ticket.", exception.getMessage());
+    }
+    @Test
+    public void should_return_car_when_fetch_given_a_valid_parking_ticket() {
+        //given
+        ParkingLot parkingLot = new ParkingLot(10);
+        Car car = new Car();
+        Ticket ticket = parkingLot.park(car);
+        //when
+        Car fetchedCar = parkingLot.fetch(ticket);
+        //then
+        assertEquals(car, fetchedCar);
+    }
+    @Test
+    public void should_throw_InvalidParkingTicketException_when_fetch_given_a_uncorrespond_ticket() {
+        //given
+        ParkingLot parkingLot = new ParkingLot(10);
+        Car car = new Car();
+        Ticket ticket = parkingLot.park(car);
+        Ticket fakeTicket = new Ticket();
+        //when
+        InvalidParkingTicketException exception = assertThrows(InvalidParkingTicketException.class, () -> parkingLot.fetch(fakeTicket));
+        //then
+        assertEquals("Unrecognized parking ticket.", exception.getMessage());
+    }
+    @Test
+    public void should_return_right_car_with_each_ticket_when_fetch_twice_given_two_parked_cars_and_two_tickets() {
+        // given
+        ParkingLot parkingLot = new ParkingLot(10);
+        Car car1 = new Car();
+        Car car2 = new Car();
+        Ticket ticket1 = parkingLot.park(car1);
+        Ticket ticket2 = parkingLot.park(car2);
+        // when
+        Car fetchedCar1 = parkingLot.fetch(ticket1);
+        Car fetchedCar2 = parkingLot.fetch(ticket2);
+        // then
+        assertEquals(car1, fetchedCar1);
+        assertEquals(car2, fetchedCar2);
+    }
+
 
 }

@@ -1,5 +1,6 @@
 package com.afs.parkinglot;
 
+import com.afs.exception.InvalidParkingTicketException;
 import com.afs.exception.ParkingLotFullException;
 
 import java.util.HashMap;
@@ -23,5 +24,13 @@ public class ParkingLot {
 
     private boolean isFull(){
         return parkingMap.size() >= capacity;
+    }
+
+    public Car fetch(Ticket ticket) {
+        if(ticket.isUsed() || !parkingMap.containsKey(ticket)){
+            throw new InvalidParkingTicketException("Unrecognized parking ticket.");
+        }
+        ticket.setIsUsed(true);
+        return parkingMap.get(ticket);
     }
 }
