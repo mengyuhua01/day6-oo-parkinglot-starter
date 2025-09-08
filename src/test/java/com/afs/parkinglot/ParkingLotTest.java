@@ -73,6 +73,35 @@ public class ParkingLotTest {
         assertEquals(car1, fetchedCar1);
         assertEquals(car2, fetchedCar2);
     }
+    @Test
+    public void should_return_ticket_when_standard_parking_boy_park_given_a_car() {
+        //given
+        SmartParkingBoy smartParkingBoy = new SmartParkingBoy();
+        ParkingLot parkingLot1 = new ParkingLot(5);
+        ParkingLot parkingLot2 = new ParkingLot(3);
+        smartParkingBoy.addParkingLot(parkingLot1);
+        smartParkingBoy.addParkingLot(parkingLot2);
+        Car car = new Car();
+        //when
+        Ticket ticket = smartParkingBoy.park(car);
+        //then
+        assertNotNull(ticket);
+    }
+    @Test
+    public void should_throw_exception_when_all_parking_lots_are_full() {
+        //given
+        StandardParkingBoy parkingBoy = new StandardParkingBoy();
+        ParkingLot parkingLot1 = new ParkingLot(1);
+        ParkingLot parkingLot2 = new ParkingLot(1);
+        parkingBoy.addParkingLot(parkingLot1);
+        parkingBoy.addParkingLot(parkingLot2);
+        parkingBoy.park(new Car());
+        parkingBoy.park(new Car());
+        Car car = new Car();
+        //when
+        ParkingLotFullException parkingLotFullException = assertThrows(ParkingLotFullException.class, () -> parkingBoy.park(car));
+        assertEquals("All parkingLots are full.",parkingLotFullException.getMessage());
+    }
 
 
 }
