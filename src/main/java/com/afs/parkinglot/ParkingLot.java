@@ -44,10 +44,13 @@ public class ParkingLot {
     }
 
     public Car fetch(Ticket ticket) {
-        if(ticket.isUsed() || !parkingMap.containsKey(ticket)){
+        if(!parkingMap.containsKey(ticket)){
             throw new InvalidParkingTicketException("Unrecognized parking ticket.");
         }
-        ticket.setIsUsed(true);
-        return parkingMap.get(ticket);
+        Car car = parkingMap.remove(ticket);
+        if(car == null){
+            throw new InvalidParkingTicketException("Parking ticket has been used.");
+        }
+        return car;
     }
 }

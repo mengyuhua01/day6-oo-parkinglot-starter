@@ -129,7 +129,7 @@ public class ParkingLotTest {
     @Test
     public void should_throw_exception_when_smart_parking_boy_park_given_all_parking_lots_are_full() {
         //given
-        StandardParkingBoy parkingBoy = new SmartParkingBoy();
+        SmartParkingBoy parkingBoy = new SmartParkingBoy();
         ParkingLot parkingLot1 = new ParkingLot(1);
         ParkingLot parkingLot2 = new ParkingLot(1);
         parkingBoy.addParkingLot(parkingLot1);

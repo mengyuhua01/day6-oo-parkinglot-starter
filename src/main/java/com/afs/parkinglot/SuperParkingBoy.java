@@ -1,6 +1,6 @@
 package com.afs.parkinglot;
 
-public class SuperParkingBoy extends StandardParkingBoy{
+public class SuperParkingBoy extends ParkingBoy{
     @Override
     public Ticket park(Car car) {
         parkingLots.sort((o1, o2) -> {
